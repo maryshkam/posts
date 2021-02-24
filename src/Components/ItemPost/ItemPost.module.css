@@ -1,0 +1,58 @@
+.item {
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  max-width: 500px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background-color: olivedrab;
+  color: black;
+  padding: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 90%;
+}
+
+.modal-block {
+  width: 300px;
+  height: 200px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color:#fff;
+  color: #000;
+  border: 1px solid #000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.message {
+  display: block;
+  width: 100%;
+}
+.block {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn {
+  width: 60px;
+  border: 1px solid #000;
+  padding: 10px;
+}
+
+
+.btn:first-child {
+  margin-right: 20px;
+}

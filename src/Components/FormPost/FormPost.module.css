@@ -1,0 +1,56 @@
+.NewPostForm {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  margin-left: 50px;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+}
+.NewPostForm > * {
+  font-family: inherit;
+  outline: none;
+  border-radius: 1px;
+  padding: 8px 16px;
+}
+.NewPostForm__name {
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #333;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 10px;
+}
+
+.wrapper {
+  padding: 20px;
+}
+
+.NewPostForm__select {
+  border: none;
+  background-color: #fff;
+  color: #333;
+  width: 100%;
+  margin-bottom: 10px;
+  height: 30px;
+}
+
+.NewPostForm__submit {
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: transparent;
+  margin-left: 16px;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.NewPostForm__submit:hover {
+  background-color: #fff;
+  color: #ff6b6b;
+}
+
+.confirm {
+  width: 100%;
+}

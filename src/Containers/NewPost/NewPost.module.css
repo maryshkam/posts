@@ -1,0 +1,10 @@
+
+.PostPage {
+  background-color: rgb(42, 3, 48);
+}
+.wrapper {
+  padding: 20px;
+  margin: auto;
+  display: flex;
+  /* background-color: rgb(42, 3, 48); */
+}
