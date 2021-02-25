@@ -1,29 +1,16 @@
-import React, { Component, useEffect } from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
-import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ListPosts from "../../Components/ListPosts/ListPosts";
 import { getPostOperation } from "../../redux/operations/postsOperations";
 import styles from "./Posts.module.css";
 
 const Posts = () => {
-  // static propTypes = {
-  //   posts: PropTypes.array.isRequired,
-  //   getPostOperation: PropTypes.func.isRequired
-  // }
-
   const posts = useSelector((store) => store.mainPosts.posts);
   const dispatch = useDispatch();
-  const getPost = () => {
-    dispatch(getPostOperation());
-  };
 
   useEffect(() => {
-    getPost();
-  }, []);
-
-  // componentDidMount() {
-  //   this.props.getPostOperation();
-  // }
+    dispatch(getPostOperation());
+  }, [dispatch]);
 
   return (
     <div className={styles.wrapper}>
@@ -33,13 +20,4 @@ const Posts = () => {
   );
 };
 
-// const mapStateToProps = (store) => ({
-//   posts: store.mainPosts.posts,
-// });
-
-// const mapDispatchToProps = {
-//   getPostOperation,
-// };
-
 export default Posts;
-// export default connect(mapStateToProps, mapDispatchToProps)(Posts);

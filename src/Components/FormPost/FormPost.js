@@ -1,8 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { compose } from "redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import {
   postPostOperation,
@@ -11,112 +9,91 @@ import {
 } from "../../redux/operations/postsOperations";
 import styles from "./FormPost.module.css";
 
-class FormPost extends Component {
-  static propTypes = {
-    postPostOperation: PropTypes.func.isRequired,
-    getPostContentOperation: PropTypes.func.isRequired,
-    editPostOperation: PropTypes.func.isRequired,
-    match: PropTypes.shape().isRequired,
-    posts: PropTypes.array.isRequired,
-    post: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-    }),
+const formInitialState = {
+  title: "",
+  body: "",
+};
+
+const FormPost = () => {
+  const [{ title, body }, setForm] = useState({ ...formInitialState });
+  const { postId } = useParams();
+  const post = useSelector((store) => store.mainPosts.singlePost);
+
+  const dispatch = useDispatch();
+
+  const postPost = (post) => {
+    return dispatch(postPostOperation(post));
   };
 
-  static defaultProps = {
-    post: null,
+  const editPost = (post, id) => {
+    dispatch(editPostOperation(post, id));
   };
 
-  formInitialState = {
-    title: "",
-    body: "",
-  };
+  // const getPost =  (id) => {
+  //    dispatch(getPostContentOperation(id));
+  // };
 
-  state = {
-    ...this.formInitialState,
-  };
-
-  inputHandler = ({ target }) => {
+  const inputHandler = ({ target }) => {
     const { value, name } = target;
-    this.setState({
-      [name]: value,
-    });
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  submitHandler = (e) => {
-    const { title, body } = this.state;
+  const submitHandler = (e) => {
     e.preventDefault();
-
     const singlePost = {
       title,
       body,
     };
-    this.props.match.params.postId
-      ? this.props.editPostOperation(singlePost, this.props.match.params.postId)
-      : this.props.postPostOperation(singlePost);
-    this.setState({ ...this.formInitialState });
+    postId ? editPost(singlePost, postId) : postPost(singlePost);
+    setForm({ ...formInitialState });
   };
 
-  async componentDidMount() {
-    if (this.props.match.params.postId) {
-      await this.props.getPostContentOperation(this.props.match.params.postId);
-      this.setState({
-        title: this.props.post?.title,
-        body: this.props.post?.body,
-      });
+  useEffect(() => {
+    if (postId) {
+      dispatch(getPostContentOperation(postId));
     }
-  }
+  }, [dispatch, postId]);
 
-  render() {
-    const { title, body } = this.state;
-    return (
-      <div className={styles.wrapper}>
-        {this.props.match.params.postId && <h1>Edit post</h1>}
-        <form
-          onSubmit={this.submitHandler}
-          className={styles.NewPostForm}
-          autoComplete="off"
-        >
-          <input
-            onChange={this.inputHandler}
-            className={styles.NewPostForm__name}
-            type="text"
-            name="title"
-            placeholder="New Post"
-            value={title}
-          />
-          <textarea
-            onChange={this.inputHandler}
-            rows="10"
-            cols="45"
-            name="body"
-            className={styles.NewPostForm__name}
-            placeholder="Your post"
-            value={body}
-          ></textarea>
+  useEffect(() => {
+    post &&
+      setForm({
+        title: post.title,
+        body: post.body,
+      });
+  }, [post]);
 
-          <button className={styles.NewTodoForm__submit} type="submit">
-            {this.props.match.params.postId ? "Edit Post" : "Add Post"}
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.wrapper}>
+      {postId && <h1>Edit post</h1>}
+      <form
+        onSubmit={submitHandler}
+        className={styles.NewPostForm}
+        autoComplete="off"
+      >
+        <input
+          onChange={inputHandler}
+          className={styles.NewPostForm__name}
+          type="text"
+          name="title"
+          placeholder="New Post"
+          value={title}
+        />
+        <textarea
+          onChange={inputHandler}
+          rows="10"
+          cols="45"
+          name="body"
+          className={styles.NewPostForm__name}
+          placeholder="Your post"
+          value={body}
+        ></textarea>
 
-const mapStateToProps = (store) => ({
-  posts: store.mainPosts.posts,
-  post: store.mainPosts.singlePost,
-});
-
-const mapDispatchToProps = {
-  postPostOperation,
-  getPostContentOperation,
-  editPostOperation,
+        <button className={styles.NewTodoForm__submit} type="submit">
+          {postId ? "Edit Post" : "Add Post"}
+        </button>
+      </form>
+    </div>
+  );
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter
-)(FormPost);
+export default FormPost;

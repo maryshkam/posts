@@ -5,11 +5,13 @@ import styles from "./ListPosts.module.css";
 
 const ListPosts = ({ posts }) => {
   return (
-    <ul className={styles.list}>
-      {posts.map((el) => (
-        <ItemPost key={el.id} {...el} />
-      ))}
-    </ul>
+    posts.length > 0 && (
+      <ul className={styles.list}>
+        {posts.map((el) => (
+          <ItemPost key={el.id} {...el} />
+        ))}
+      </ul>
+    )
   );
 };
 
