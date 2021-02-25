@@ -1,12 +1,13 @@
 import axios from "axios";
 import { deletePost, setPosts, getPostID } from "../actions/postsAction";
 import { loaderOn, loaderOff } from "../actions/loaderAction";
-import { setError } from "../actions/errorAction";
+import { setError, resetError } from "../actions/errorAction";
 
 axios.defaults.baseURL = "https://simple-blog-api.crew.red/posts";
 
 export const getPostOperation = () => async (dispatch) => {
   try {
+    dispatch(resetError());
     dispatch(loaderOn());
     const result = await axios.get();
     dispatch(setPosts(result.data));
@@ -19,6 +20,7 @@ export const getPostOperation = () => async (dispatch) => {
 
 export const getPostContentOperation = (id) => async (dispatch) => {
   try {
+    dispatch(resetError());
     dispatch(loaderOn());
     const result = await axios.get(`/${id}?_embed=comments`);
     dispatch(getPostID(result.data));
@@ -31,6 +33,7 @@ export const getPostContentOperation = (id) => async (dispatch) => {
 
 export const postPostOperation = (post) => async (dispatch) => {
   try {
+    dispatch(resetError());
     dispatch(loaderOn());
     await axios.post("/", post);
   } catch (error) {
@@ -42,6 +45,7 @@ export const postPostOperation = (post) => async (dispatch) => {
 
 export const editPostOperation = (post, id) => async (dispatch) => {
   try {
+    dispatch(resetError());
     dispatch(loaderOn());
     await axios.put(`/${id}`, post);
   } catch (error) {
@@ -53,6 +57,7 @@ export const editPostOperation = (post, id) => async (dispatch) => {
 
 export const removePostOperation = (id) => async (dispatch) => {
   try {
+    dispatch(resetError());
     dispatch(loaderOn());
     await axios.delete(`/${id}`);
     dispatch(deletePost(id));

@@ -9,8 +9,8 @@ import styles from "./ItemPost.module.css";
 
 class ItemPost extends Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    body: PropTypes.string,
     removePost: PropTypes.func.isRequired,
     history: PropTypes.shape().isRequired,
   };

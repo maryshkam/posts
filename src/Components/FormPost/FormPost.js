@@ -19,8 +19,8 @@ class FormPost extends Component {
     match: PropTypes.shape().isRequired,
     posts: PropTypes.array.isRequired,
     post: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
+      title: PropTypes.string,
+      body: PropTypes.string,
     }),
   };
 
@@ -61,10 +61,11 @@ class FormPost extends Component {
   async componentDidMount() {
     if (this.props.match.params.postId) {
       await this.props.getPostContentOperation(this.props.match.params.postId);
-      this.setState({
-        title: this.props.post?.title,
-        body: this.props.post?.body,
-      });
+      this.props.post &&
+        this.setState({
+          title: this.props.post.title,
+          body: this.props.post.body,
+        });
     }
   }
 
