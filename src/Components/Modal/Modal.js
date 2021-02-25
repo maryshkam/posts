@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import styles from "./Modal.module.css";
 
-class Modal extends Component {
-  render() {
-    return <div className={styles.modal}>{this.props.children}</div>;
-  }
-}
+const Modal = () => {
+  return <div className={styles.modal}>{this.props.children}</div>;
+};
 
 export default Modal;

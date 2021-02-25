@@ -1,39 +1,45 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component, useEffect } from "react";
+import { connect, useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import ListPosts from "../../Components/ListPosts/ListPosts";
 import { getPostOperation } from "../../redux/operations/postsOperations";
 import styles from "./Posts.module.css";
 
-class Posts extends Component {
-static propTypes = {
-  posts: PropTypes.array.isRequired,
-  getPostOperation: PropTypes.func.isRequired
-}
-  
-  componentDidMount() {
-    this.props.getPostOperation();
-  }
+const Posts = () => {
+  // static propTypes = {
+  //   posts: PropTypes.array.isRequired,
+  //   getPostOperation: PropTypes.func.isRequired
+  // }
 
-  render() {
-    const { posts } = this.props;
-    return (
-      <div className={styles.wrapper}>
-        <h1>Posts</h1>
-        {posts.length > 0 && <ListPosts posts={posts} />}
-      </div>
-    );
-  }
-}
+  const posts = useSelector((store) => store.mainPosts.posts);
+  const dispatch = useDispatch();
+  const getPost = () => {
+    dispatch(getPostOperation());
+  };
 
-const mapStateToProps = (store) => ({
-  posts: store.mainPosts.posts,
-});
+  useEffect(() => {
+    getPost();
+  }, []);
 
-const mapDispatchToProps = {
-  getPostOperation,
+  // componentDidMount() {
+  //   this.props.getPostOperation();
+  // }
+
+  return (
+    <div className={styles.wrapper}>
+      <h1>Posts</h1>
+      {posts.length > 0 && <ListPosts posts={posts} />}
+    </div>
+  );
 };
 
+// const mapStateToProps = (store) => ({
+//   posts: store.mainPosts.posts,
+// });
 
+// const mapDispatchToProps = {
+//   getPostOperation,
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+export default Posts;
+// export default connect(mapStateToProps, mapDispatchToProps)(Posts);

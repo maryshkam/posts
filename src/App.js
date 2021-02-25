@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Loader from "react-loader-spinner";
 import Header from "./Components/Header/Header";
@@ -9,7 +9,10 @@ import SingleItemPost from "./Components/SingleItemPost/SingleItemPost";
 import NewPost from "./Containers/NewPost/NewPosts";
 import FormPost from "./Components/FormPost/FormPost";
 
-function App({ loader, error }) {
+function App() {
+  const loader = useSelector((store) => store.loader);
+  const error = useSelector((store) => store.error);
+
   return (
     <>
       <Header />
@@ -35,14 +38,15 @@ function App({ loader, error }) {
   );
 }
 
-App.propTypes = {
-  error: PropTypes.string.isRequired,
-  loader: PropTypes.bool.isRequired,
-};
+// App.propTypes = {
+//   error: PropTypes.string.isRequired,
+//   loader: PropTypes.bool.isRequired,
+// };
 
-const mapStateToProps = (store) => ({
-  error: store.error,
-  loader: store.loader,
-});
+// const mapStateToProps = (store) => ({
+//   error: store.error,
+//   loader: store.loader,
+// });
 
-export default connect(mapStateToProps)(App);
+// export default connect(mapStateToProps)(App);
+export default App;
